@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Itemlist from '../components/Itemlist'
+import { SpinnerCircular } from 'spinners-react'
+import Checkbox from '../components/Checkbox'
 import logo from '../../img/logo.png'
 import user from '../../img/user.png'
 import ring from '../../img/ring.svg'
@@ -11,27 +12,19 @@ import phone3 from '../../img/phone3.png'
 import phone4 from '../../img/phone4.png'
 
 function Ticket() {
-    const [checkNum, setCheckNum] = useState(0)
-    const [checkedItems, setCheckedItems] = useState({})
     const [imgFlag, setImgflag] = useState('block')
-    const [searchflag, setSearchflag] = useState(false)
+    const [existflag, setExistflag] = useState(false)
+    const [sniperflag, setSniperflag] = useState(false)
     const [search, setSearch] = useState('')
-    const [data, setData] = useState([])
-    const handleChange = (event) => {
-        setCheckedItems({
-            ...checkedItems,
-            [event.target.name]: event.target.checked,
-        })
-    }
+
+    const [isCount, setIsCount] = useState(0)
+    const [isCheck, setIsCheck] = useState([])
+    const [list, setList] = useState([])
 
     useEffect(() => {
-        if (Object.keys(checkedItems).length > 0) {
-            const count = Object.values(checkedItems).filter(
-                (item) => item === true
-            ).length
-            setCheckNum(count)
-        }
-    }, [checkedItems])
+        const count = isCheck.filter((item) => item === true).length
+        setIsCount(count)
+    }, [isCheck])
 
     useEffect(() => {
         const setImgshow = () => {
@@ -43,24 +36,75 @@ function Ticket() {
         window.addEventListener('resize', () => setImgshow())
     })
 
+    const handleSelectAll = (e) => {
+        let ischeck_ = []
+        list.forEach((item, index) => {
+            ischeck_[index + 1] = true
+        })
+        setIsCheck([...ischeck_])
+    }
+
+    const handleChange = (e) => {
+        let state = e.target.checked
+        let item = e.target.name.split('_')[1]
+        let ischeck_ = isCheck
+        ischeck_[item] = state
+        setIsCheck([...ischeck_])
+    }
+
+    const catalog = list.map((item, index) => {
+        return (
+            <div
+                className="flex justify-between rounded-md bg-gray px-7 py-4 my-4"
+                key={index}
+            >
+                <Checkbox
+                    key={index}
+                    type="checkbox"
+                    name={'checkbox_' + (index + 1)}
+                    handleClick={handleChange}
+                    isChecked={isCheck[index + 1] ? true : false}
+                />
+                <p className="flex items-center w-11/12 lg:text-lg md:text-lg_1 sm:text-lg text-base lg:mr-10 md:mr-2 sm:mr-2 ml-2">
+                    {item}
+                </p>
+            </div>
+        )
+    })
+
     const handleClick = async () => {
         if (!search) {
             alert('please input')
             return
-        }
-        try {
-            await axios.post('openapi/search', { search }).then((res) => {
-                const source = res.data.choices[0].text
-                const toks = source
-                    .split('\n')
-                    .map((s) => s.trim())
-                    .filter((s) => s)
-                    .map((s) => s.match(/\d+\.\s+(.*)/)[1])
-                setData(toks)
-                setSearchflag(true)
-            })
-        } catch (err) {
-            throw err
+        } else if (search.length < 6) {
+            alert('please input more 5 character')
+        } else {
+            setExistflag(false)
+            setSniperflag(true)
+            try {
+                await axios.post('openapi/search', { search }).then((res) => {
+                    if (res.data) {
+                        const source = res.data.choices[0].text
+                        const toks = source
+                            .split('\n')
+                            .map((s) => s.trim())
+                            .filter((s) => s)
+                            .map((s) =>
+                                s
+                                    .match(
+                                        /\d+\.\s+(?:\w+\s*\w+\s*[\-\:\–]\s*)?\s*(.*)/
+                                    )[1]
+                                    .replace('"', '')
+                            )
+                        setList(toks)
+                        // setIsCheck(toks.map((_) => ''))
+                    }
+                    setExistflag(true)
+                    setSniperflag(false)
+                })
+            } catch (err) {
+                throw err
+            }
         }
     }
 
@@ -105,12 +149,25 @@ function Ticket() {
                         </div>
                         <div className="w-1/4">
                             <button
-                                className="bg-blue border-solid border-2 rounded-md border-blue 
+                                className="flex justify-center items-center bg-blue border-solid border-2 rounded-md border-blue 
                                     text-white text-center font-bold w-full lg:py-6 md:py-6 sm:py-4 py-3 lg:text-xl 
-                                    md:text-lg sm:text-lg text-base"
+                                    md:text-lg sm:text-lg text-base text-center h-full relative"
                                 onClick={handleClick}
+                                disabled={sniperflag}
                             >
-                                Search
+                                {sniperflag ? (
+                                    <SpinnerCircular
+                                        className="absolute"
+                                        enabled={sniperflag}
+                                        size={35}
+                                        thickness={122}
+                                        speed={100}
+                                        color="rgba(1, 106, 233, 1)"
+                                        secondaryColor="rgba(255, 255, 255, 1)"
+                                    />
+                                ) : (
+                                    <>Search</>
+                                )}
                             </button>
                         </div>
                     </div>
@@ -122,7 +179,10 @@ function Ticket() {
                             Headline suggestions for{' '}
                             <span className="font-bold">"{search}"</span>
                         </p>
-                        <p className="lg:text-lg md:text-lg_1 sm:text-lg text-base text-blue font-bold cursor-pointer">
+                        <p
+                            className="lg:text-lg md:text-lg_1 sm:text-lg text-base text-blue font-bold cursor-pointer"
+                            onClick={handleSelectAll}
+                        >
                             Select&nbsp;all
                         </p>
                     </div>
@@ -147,17 +207,17 @@ function Ticket() {
                             </button>
                         </div>
                     </div>
-                    <Itemlist result={data} handleChange={handleChange} />
+                    {catalog}
                 </div>
 
                 <div className="rounded-md bg-blue w-full relative">
-                    {searchflag ? (
+                    {existflag ? (
                         <>
-                            {data.length > 0 ? (
+                            {list.length > 0 ? (
                                 <>
                                     <div className="lg:px-14 md:px-8 sm:px-6 px-4 py-10 mt-14">
                                         <p className="text-white font-bold lg:text-xl md:text-lg sm:text-lg text-base">
-                                            {checkNum} headlines are selected.
+                                            {isCount} headlines are selected.
                                         </p>
                                         <p className="text-white lg:text-sm md:text-sm text-vsm mt-2">
                                             Test these headlines by launching a
