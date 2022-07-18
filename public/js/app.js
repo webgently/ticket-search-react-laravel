@@ -146,10 +146,10 @@ function Ticket() {
       checkedItems = _useState4[0],
       setCheckedItems = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('block'),
       _useState6 = _slicedToArray(_useState5, 2),
-      flag = _useState6[0],
-      setFlag = _useState6[1];
+      imgFlag = _useState6[0],
+      setImgflag = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState8 = _slicedToArray(_useState7, 2),
@@ -180,7 +180,7 @@ function Ticket() {
   }, [checkedItems]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var setImgshow = function setImgshow() {
-      return window.innerWidth < 1140 ? setFlag(false) : setFlag(true);
+      return window.innerWidth < 1140 ? setImgflag('hidden') : setImgflag('block');
     };
 
     setImgshow();
@@ -357,34 +357,18 @@ function Ticket() {
                 className: "bg-white border-solid border-2 rounded-md border-blue text-blue font-bold \r lg:text-sm md:text-sm text-vsm text-center lg:px-6 md:px-5 px-2 lg:py-2 md:py-2 py-1 mt-6",
                 children: "Create Test"
               })]
-            }), flag ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone1_png__WEBPACK_IMPORTED_MODULE_6__["default"],
-                className: "absolute bottom-0 right-36"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone2_png__WEBPACK_IMPORTED_MODULE_7__["default"],
-                className: "absolute bottom-0 right-14"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone3_png__WEBPACK_IMPORTED_MODULE_8__["default"],
-                className: "absolute bottom-0 right-0"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone4_png__WEBPACK_IMPORTED_MODULE_9__["default"],
-                className: "absolute bottom-0 right-0"
-              })]
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone1_png__WEBPACK_IMPORTED_MODULE_6__["default"],
-                className: "absolute bottom-0 right-36 hidden"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone2_png__WEBPACK_IMPORTED_MODULE_7__["default"],
-                className: "absolute bottom-0 right-14 hidden"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone3_png__WEBPACK_IMPORTED_MODULE_8__["default"],
-                className: "absolute bottom-0 right-0 hidden"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
-                src: _img_phone4_png__WEBPACK_IMPORTED_MODULE_9__["default"],
-                className: "absolute bottom-0 right-0 hidden"
-              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
+              src: _img_phone1_png__WEBPACK_IMPORTED_MODULE_6__["default"],
+              className: 'absolute bottom-0 right-36 ' + imgFlag
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
+              src: _img_phone2_png__WEBPACK_IMPORTED_MODULE_7__["default"],
+              className: 'absolute bottom-0 right-14 ' + imgFlag
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
+              src: _img_phone3_png__WEBPACK_IMPORTED_MODULE_8__["default"],
+              className: 'absolute bottom-0 right-0 ' + imgFlag
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
+              src: _img_phone4_png__WEBPACK_IMPORTED_MODULE_9__["default"],
+              className: 'absolute bottom-0 right-0 ' + imgFlag
             })]
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "rounded-md bg-gray px-7 py-8 my-4 relative",

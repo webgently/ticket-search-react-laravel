@@ -12,7 +12,7 @@ import phone4 from '../../img/phone4.png'
 function Ticket() {
     const [checkNum, setCheckNum] = useState(0)
     const [checkedItems, setCheckedItems] = useState({})
-    const [flag, setFlag] = useState(false)
+    const [imgFlag, setImgflag] = useState('block')
     const [searchflag, setSearchflag] = useState(false)
     const [search, setSearch] = useState('')
     const [data, setData] = useState([])
@@ -34,7 +34,9 @@ function Ticket() {
 
     useEffect(() => {
         const setImgshow = () => {
-            return window.innerWidth < 1140 ? setFlag(false) : setFlag(true)
+            return window.innerWidth < 1140
+                ? setImgflag('hidden')
+                : setImgflag('block')
         }
         setImgshow()
         window.addEventListener('resize', () => setImgshow())
@@ -180,46 +182,34 @@ function Ticket() {
                                             Create Test
                                         </button>
                                     </div>
-
-                                    {flag ? (
-                                        <>
-                                            <img
-                                                src={phone1}
-                                                className="absolute bottom-0 right-36"
-                                            />
-                                            <img
-                                                src={phone2}
-                                                className="absolute bottom-0 right-14"
-                                            />
-                                            <img
-                                                src={phone3}
-                                                className="absolute bottom-0 right-0"
-                                            />
-                                            <img
-                                                src={phone4}
-                                                className="absolute bottom-0 right-0"
-                                            />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <img
-                                                src={phone1}
-                                                className="absolute bottom-0 right-36 hidden"
-                                            />
-                                            <img
-                                                src={phone2}
-                                                className="absolute bottom-0 right-14 hidden"
-                                            />
-                                            <img
-                                                src={phone3}
-                                                className="absolute bottom-0 right-0 hidden"
-                                            />
-                                            <img
-                                                src={phone4}
-                                                className="absolute bottom-0 right-0 hidden"
-                                            />
-                                        </>
-                                    )}
+                                    <img
+                                        src={phone1}
+                                        className={
+                                            'absolute bottom-0 right-36 ' +
+                                            imgFlag
+                                        }
+                                    />
+                                    <img
+                                        src={phone2}
+                                        className={
+                                            'absolute bottom-0 right-14 ' +
+                                            imgFlag
+                                        }
+                                    />
+                                    <img
+                                        src={phone3}
+                                        className={
+                                            'absolute bottom-0 right-0 ' +
+                                            imgFlag
+                                        }
+                                    />
+                                    <img
+                                        src={phone4}
+                                        className={
+                                            'absolute bottom-0 right-0 ' +
+                                            imgFlag
+                                        }
+                                    />
                                 </>
                             ) : (
                                 <div className="rounded-md bg-gray px-7 py-8 my-4 relative">
