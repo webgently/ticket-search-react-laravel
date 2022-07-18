@@ -27,6 +27,6 @@ class ApiController extends Controller
             "frequency_penalty" => 0, 
             "presence_penalty" => 0 
         ]);
-        echo $response;
+        return $response;
     }
 }

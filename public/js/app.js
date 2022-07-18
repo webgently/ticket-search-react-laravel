@@ -2211,20 +2211,25 @@ function Ticket() {
       search = _useState8[0],
       setSearch = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      isCount = _useState10[0],
-      setIsCount = _useState10[1];
+      msg = _useState10[0],
+      setMsg = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState12 = _slicedToArray(_useState11, 2),
-      isCheck = _useState12[0],
-      setIsCheck = _useState12[1];
+      isCount = _useState12[0],
+      setIsCount = _useState12[1];
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState14 = _slicedToArray(_useState13, 2),
-      list = _useState14[0],
-      setList = _useState14[1];
+      isCheck = _useState14[0],
+      setIsCheck = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState16 = _slicedToArray(_useState15, 2),
+      list = _useState16[0],
+      setList = _useState16[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var count = isCheck.filter(function (item) {
@@ -2280,7 +2285,7 @@ function Ticket() {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (search) {
+              if (search.trim()) {
                 _context.next = 5;
                 break;
               }
@@ -2294,7 +2299,7 @@ function Ticket() {
                 break;
               }
 
-              alert('please input more 5 character');
+              alert('The search must be at least 6 characters.');
               _context.next = 19;
               break;
 
@@ -2306,16 +2311,25 @@ function Ticket() {
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post('openapi/search', {
                 search: search
               }).then(function (res) {
-                if (res.data) {
-                  var source = res.data.choices[0].text;
-                  var toks = source.split('\n').map(function (s) {
-                    return s.trim();
-                  }).filter(function (s) {
-                    return s;
-                  }).map(function (s) {
-                    return s.match(/\d+\.\s+(?:\w+\s*\w+\s*[\-\:\–]\s*)?\s*(.*)/)[1].replace('"', '');
-                  });
-                  setList(toks); // setIsCheck(toks.map((_) => ''))
+                console.log(res);
+                console.log(res.status);
+
+                if (res.status === 200) {
+                  if (res.data.error) {
+                    setMsg(res.data.error.message);
+                  } else {
+                    if (res.data.choices[0].text) {
+                      var source = res.data.choices[0].text;
+                      var toks = source.split('\n').map(function (s) {
+                        return s.trim();
+                      }).filter(function (s) {
+                        return s;
+                      }).map(function (s) {
+                        return s.match(/\d+\.\s+(?:\w+\s*\w+\s*[\-\:\–]\s*)?\s*(.*)/)[1];
+                      });
+                      setList(toks);
+                    }
+                  }
                 }
 
                 setExistflag(true);
@@ -2489,7 +2503,7 @@ function Ticket() {
                 children: "Oops, no data to display"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
                 className: "flex items-center lg:text-lg md:text-lg_1 sm:text-lg text-base lg:mr-10 md:mr-2 sm:mr-2 mt-4",
-                children: "Your search returned no results. Please try to type other keyword."
+                children: msg
               })]
             })]
           })

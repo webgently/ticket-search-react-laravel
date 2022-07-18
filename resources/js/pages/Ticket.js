@@ -16,6 +16,7 @@ function Ticket() {
     const [existflag, setExistflag] = useState(false)
     const [sniperflag, setSniperflag] = useState(false)
     const [search, setSearch] = useState('')
+    const [msg, setMsg] = useState('')
 
     const [isCount, setIsCount] = useState(0)
     const [isCheck, setIsCheck] = useState([])
@@ -73,31 +74,37 @@ function Ticket() {
     })
 
     const handleClick = async () => {
-        if (!search) {
+        if (!search.trim()) {
             alert('please input')
             return
         } else if (search.length < 6) {
-            alert('please input more 5 character')
+            alert('The search must be at least 6 characters.')
         } else {
             setExistflag(false)
             setSniperflag(true)
             try {
                 await axios.post('openapi/search', { search }).then((res) => {
-                    if (res.data) {
-                        const source = res.data.choices[0].text
-                        const toks = source
-                            .split('\n')
-                            .map((s) => s.trim())
-                            .filter((s) => s)
-                            .map((s) =>
-                                s
-                                    .match(
-                                        /\d+\.\s+(?:\w+\s*\w+\s*[\-\:\–]\s*)?\s*(.*)/
-                                    )[1]
-                                    .replace('"', '')
-                            )
-                        setList(toks)
-                        // setIsCheck(toks.map((_) => ''))
+                    console.log(res)
+                    console.log(res.status)
+                    if (res.status === 200) {
+                        if (res.data.error) {
+                            setMsg(res.data.error.message)
+                        } else {
+                            if (res.data.choices[0].text) {
+                                const source = res.data.choices[0].text
+                                const toks = source
+                                    .split('\n')
+                                    .map((s) => s.trim())
+                                    .filter((s) => s)
+                                    .map(
+                                        (s) =>
+                                            s.match(
+                                                /\d+\.\s+(?:\w+\s*\w+\s*[\-\:\–]\s*)?\s*(.*)/
+                                            )[1]
+                                    )
+                                setList(toks)
+                            }
+                        }
                     }
                     setExistflag(true)
                     setSniperflag(false)
@@ -270,8 +277,7 @@ function Ticket() {
                                             Oops, no data to display
                                         </p>
                                         <p className="flex items-center lg:text-lg md:text-lg_1 sm:text-lg text-base lg:mr-10 md:mr-2 sm:mr-2 mt-4">
-                                            Your search returned no results.
-                                            Please try to type other keyword.
+                                            {msg}
                                         </p>
                                     </div>
                                 </div>

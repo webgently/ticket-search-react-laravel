@@ -538,24 +538,6 @@ video {
 .top-9 {
   top: 2.25rem;
 }
-.left-10 {
-  left: 2.5rem;
-}
-.top-1 {
-  top: 0.25rem;
-}
-.top-20 {
-  top: 5rem;
-}
-.top-8 {
-  top: 2rem;
-}
-.top-5 {
-  top: 1.25rem;
-}
-.top-3 {
-  top: 0.75rem;
-}
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -596,14 +578,11 @@ video {
 .h-4 {
   height: 1rem;
 }
-.h-5 {
-  height: 1.25rem;
+.h-full {
+  height: 100%;
 }
 .h-7 {
   height: 1.75rem;
-}
-.h-full {
-  height: 100%;
 }
 .w-11\/12 {
   width: 91.666667%;
@@ -619,25 +598,6 @@ video {
 }
 .w-1\/4 {
   width: 25%;
-}
-.w-5 {
-  width: 1.25rem;
-}
-@-webkit-keyframes spin {
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-.animate-spin {
-  -webkit-animation: spin 1s linear infinite;
-          animation: spin 1s linear infinite;
 }
 .cursor-pointer {
   cursor: pointer;
