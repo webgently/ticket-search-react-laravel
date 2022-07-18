@@ -48,36 +48,16 @@ function Ticket() {
             alert('please input')
             return
         }
-        setSearchflag(true)
-        // let response = {
-        //     id: 'cmpl-5V7HrYlarbDq0w2PS0N5np5xLp3H6',
-        //     object: 'text_completion',
-        //     created: 1658097863,
-        //     model: 'text-davinci-002',
-        //     choices: [
-        //         {
-        //             text: "\n1. The most effective TikTok ads that get results \n2. How to make a TikTok ad that people will actually watch \n3. TikTok ads that went viral and why \n4. The best TikTok ad examples to inspire your own campaigns \n5. How to create a TikTok ad in minutes \n6. 7 TikTok ad tips to get more views and engagement \n7. The ultimate guide to TikTok ads \n8. How to make your TikTok ads stand out \n9. 10 inspiring examples of TikTok ads \n10. The do's and don'ts of creating a TikTok ad",
-        //             index: 0,
-        //             logprobs: null,
-        //             finish_reason: 'stop',
-        //         },
-        //     ],
-        //     usage: {
-        //         prompt_tokens: 165,
-        //         completion_tokens: 168,
-        //         total_tokens: 333,
-        //     },
-        // }
-        // const source = response.choices[0].text
-        // const toks = source
-        //     .split('\n')
-        //     .map((s) => s.trim())
-        //     .filter((s) => s)
-        //     .map((s) => s.match(/\d+\.\s+(.*)/)[1])
-        // setData(toks)
         try {
             await axios.post('openapi/search', { search }).then((res) => {
-                console.log(res.data)
+                const source = res.data.choices[0].text
+                const toks = source
+                    .split('\n')
+                    .map((s) => s.trim())
+                    .filter((s) => s)
+                    .map((s) => s.match(/\d+\.\s+(.*)/)[1])
+                setData(toks)
+                setSearchflag(true)
             })
         } catch (err) {
             throw err

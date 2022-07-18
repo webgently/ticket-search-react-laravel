@@ -2262,56 +2262,38 @@ function Ticket() {
               return _context.abrupt("return");
 
             case 3:
-              setSearchflag(true); // let response = {
-              //     id: 'cmpl-5V7HrYlarbDq0w2PS0N5np5xLp3H6',
-              //     object: 'text_completion',
-              //     created: 1658097863,
-              //     model: 'text-davinci-002',
-              //     choices: [
-              //         {
-              //             text: "\n1. The most effective TikTok ads that get results \n2. How to make a TikTok ad that people will actually watch \n3. TikTok ads that went viral and why \n4. The best TikTok ad examples to inspire your own campaigns \n5. How to create a TikTok ad in minutes \n6. 7 TikTok ad tips to get more views and engagement \n7. The ultimate guide to TikTok ads \n8. How to make your TikTok ads stand out \n9. 10 inspiring examples of TikTok ads \n10. The do's and don'ts of creating a TikTok ad",
-              //             index: 0,
-              //             logprobs: null,
-              //             finish_reason: 'stop',
-              //         },
-              //     ],
-              //     usage: {
-              //         prompt_tokens: 165,
-              //         completion_tokens: 168,
-              //         total_tokens: 333,
-              //     },
-              // }
-              // const source = response.choices[0].text
-              // const toks = source
-              //     .split('\n')
-              //     .map((s) => s.trim())
-              //     .filter((s) => s)
-              //     .map((s) => s.match(/\d+\.\s+(.*)/)[1])
-              // setData(toks)
-
-              _context.prev = 4;
-              _context.next = 7;
+              _context.prev = 3;
+              _context.next = 6;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post('openapi/search', {
                 search: search
               }).then(function (res) {
-                console.log(res.data);
+                var source = res.data.choices[0].text;
+                var toks = source.split('\n').map(function (s) {
+                  return s.trim();
+                }).filter(function (s) {
+                  return s;
+                }).map(function (s) {
+                  return s.match(/\d+\.\s+(.*)/)[1];
+                });
+                setData(toks);
+                setSearchflag(true);
               });
 
-            case 7:
-              _context.next = 12;
+            case 6:
+              _context.next = 11;
               break;
 
-            case 9:
-              _context.prev = 9;
-              _context.t0 = _context["catch"](4);
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](3);
               throw _context.t0;
 
-            case 12:
+            case 11:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[4, 9]]);
+      }, _callee, null, [[3, 8]]);
     }));
 
     return function handleClick() {
